@@ -130,9 +130,10 @@ else
 //	$name = 'esim'.$i.'';
 //	$option_string .= '__ esim-files/' . $job_data->$name . '/' . $job_data->$name.'.el ';
 //}
-
-$option_string .= '-tinitial auto ';
-$option_string .= '-tdecay auto';
+if( $version != "SANA 2.0"){
+	$option_string .= '-tinitial auto ';
+	$option_string .= '-tdecay auto';
+}
 
 // append SANA execution options
 foreach($options->options_inputs as $option => $value)
@@ -271,7 +272,7 @@ else
 	fclose($output_info);
 	
 	returnProcessingState(true, "Networks successfully processed.", array(
-		"url" => "/results?id=" . $job_data->id
+		"url" => "/template/results?id=" . $job_data->id
 	));
 }
 ?>

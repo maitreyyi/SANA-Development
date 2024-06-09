@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 // Redirect non-POST requests
 if($_SERVER['REQUEST_METHOD'] != 'POST')
 {
-	header('Location: /');
+	header('Location: /template/');
 	die();
 }
 

@@ -4,7 +4,7 @@
 	$_THIS_DIR 		= realpath(dirname(__FILE__));
 	
 	$job_id			= $_GET['id'];
-	$job_dir		= $_JOBS . '/' . $job_id;
+	$job_dir		=  $_JOBS . '/' . $job_id;
 	
 	$is_job			= is_dir($job_dir);
 	
@@ -139,7 +139,7 @@
 						<hr>
 						<div id="results-search-form-wrapper">
 							<label id="result-search-label">Job ID To Search For:</label>
-							<form action="/results">
+							<form action="/template/results">
 								<input type="text" id="results-search-input" name="id" placeholder="Previous Job ID"></input>
 								<input type="submit" id="results-search-submit" class="button radius" value="Submit"></input>
 							</form>
