@@ -1,5 +1,5 @@
 <?php //include $_SERVER["DOCUMENT_ROOT"].'/php/includes.php';
-echo 'here inside processphp';
+
 ignore_user_abort(true);
 
 function returnProcessingState($success, $status, $data=array())
@@ -90,7 +90,7 @@ else if ($info->status == "processing")
 
 $options 	= $info->options;
 $job_data 	= $info->data;
-//$version      = $info->version;
+$version        = $info->version;
 
 $output_info = fopen($job_data->job_location . "/info.json", "w");
 fwrite($output_info, json_encode(array("status" => "processing")));
@@ -104,9 +104,16 @@ fclose($output_info);
 
 
 // start with binary location
-// sana1.1, sana2.0
-$version = 'sana2.0';
-$option_string .= 'cd ' . $job_data->job_location . ' && /home/sana/bin/'.$version. ' ';
+
+$bin_version = 'sana2.0';
+
+if($version == "SANA 1.0"){
+	$bin_version = "sana1.0";
+} elseif($version == "SANA 1.1"){
+	$bin_version = "sana1.1";
+}
+
+$option_string .= 'cd ' . $job_data->job_location . ' && /home/sana/bin/'.$bin_version. ' ';
 //networks
 if ($job_data->extension == 'el') 
 {

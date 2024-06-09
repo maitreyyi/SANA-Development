@@ -45,7 +45,7 @@ function returnProcessingState($success, $status, $data=array())
  */
 
 //assign json file based on version
-/*
+
 $version = $_POST['version'];
 $v_json = 'SANA2.json';
 
@@ -59,9 +59,10 @@ switch($version){
 		break;
 }
 
-**/
+
+
 $default_options_info 		= json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] 
-							  . '/template/query/versions/SANA2.json'));
+							  . '/template/query/versions/'.$v_json));
 $default_options_info_array = array_merge($default_options_info->standard, $default_options_info->advanced);
 
 
@@ -298,7 +299,8 @@ $status = fopen($job_data['job_location'] . '/info.json', 'w');
 fwrite($status, json_encode(array(		
 	'status' 	=> 'preprocessed',
 	'data' 		=> $job_data,
-	'options'       => $_POST
+	'options'       => $_POST,
+	'version'       => $_POST['version']
 )));
 
 fclose($status);

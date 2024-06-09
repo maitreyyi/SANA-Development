@@ -194,7 +194,8 @@ $(document).ready(function(){
 					$(window).bind("beforeunload", function(){return "The networks have not been aligned yet.";});
 					var queryData = new FormData($("form")[0]);
 					var version = document.getElementById("version").value;
-					
+					queryData.append('version', version);
+
 					$.ajax(
 					{
 						url: "/template/process/preprocess.php",
@@ -207,8 +208,6 @@ $(document).ready(function(){
 					}).done(function(data, status, something)
 					{
 						$(window).unbind("beforeunload");
-						console.log("Status: ", status);
-						console.log("Something: ", something);
 						data = JSON.parse(data);
 						if (data['success'])
 							window.location = data["data"]['url'];
