@@ -1,0 +1,1 @@
+$(document).ready(function(){$(".results").addClass("active"),$("form").submit(function(){return alert("Nothing has been put in the search bar."),!1}),$("#results-search-input").focus(function(){this.value="",$(this).addClass("active").unbind("focus"),$("form").unbind("submit")})});

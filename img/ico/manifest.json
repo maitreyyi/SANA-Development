@@ -1,0 +1,13 @@
+{
+    "name": "",
+    "icons": [
+        {
+            "src": "/img/ico/android-chrome-96x96.png?v=Km2ReyXPB7",
+            "sizes": "96x96",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#507dcd",
+    "background_color": "#507dcd",
+    "display": "standalone"
+}
