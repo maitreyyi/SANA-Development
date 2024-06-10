@@ -40,7 +40,12 @@
 			
 			while(!feof($exec_log_file_buffer))
 			{
-				$exec_log_file_output .= '<span>' . trim($exec_log_file_line) . '</span>';
+				$exec_log_file_trim = trim($exec_log_file_line);
+				if (strpos($exec_log_file_trim, '===') === 0) {
+					$exec_log_file_output .= '<h2>'.$exec_log_file_trim . '</h2>';
+				}else {
+					$exec_log_file_output .= '<span>' . trim($exec_log_file_line) . '</span>';
+				}
 				$exec_log_file_line = fgets($exec_log_file_buffer);
 			}
 			
@@ -62,6 +67,7 @@
 	<head>
 		
 		<?php include $_INCLUDES . '/head.php'; ?>
+		
 		
 	</head>
 	<body>
@@ -90,12 +96,16 @@
 							if ($status == 'processed') 
 							{
 								
-							?>
+?>								
 								<div id="results-note" class="panel callout">
 									<h2>NOTE</h2>
 									<span id="result-info">These results can be accessed on <a href="<?php $_URL; ?>/results">the results page</a> using the above Job ID, or directly accessed using <a href="<?php echo $_URL . '/results?id=' . $job_id; ?>">this link</a>.</span>
 								</div>
-								<a id="zip-download-button" class="button radius" href="<?php echo $zip_location; ?>">Download Results As .zip</a>
+
+								<div class = "col-md-6">
+									<a id="zip-download-button" class="button radius" href="<?php echo $zip_location; ?>">Download Results As .zip</a>
+								</div>
+								
 								<div id="exec-log-file-output">
 								<?php
 									
