@@ -113,7 +113,7 @@
 						<?php 
 							}
 						?>
-							<p>If you wish to close this window, take note of the Job ID: it can used to fetch the results when processing is finished by going to the <a href="/results">look up previous job</a> page.</p>
+							<p>If you wish to close this window, take note of the Job ID: it can used to fetch the results when processing is finished by going to the <a href="/template/results">look up previous job</a> page.</p>
 						</div>
 						<div id="exec-log-file-output">
 							<?php

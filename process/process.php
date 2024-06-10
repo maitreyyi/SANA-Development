@@ -74,14 +74,12 @@ echo $info->status;
 
 if ($info->status == "processed" || $info->status == "failed")
 {
-	echo 'here inside processed/failed';
 	returnProcessingStatus(true, 
 						   "Networks already aligned.", 
 						   array("url" => "/results?id=".$_POST["id"]));
 } 
 else if ($info->status == "processing")
 {
-	echo 'here inside processing';
 	returnProcessingState(true, "Networks are still being aligned.");
 }
 
