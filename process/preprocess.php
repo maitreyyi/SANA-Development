@@ -124,6 +124,27 @@ else
 }
 
 /*
+ * 2a) Validate that esimfile count matches number of files uploaded
+ */
+
+$esim_files_arr = array();
+/**
+if(isset($_POST['options_inputs']['esim']){
+	$esim_count = $_POST['options_inputs']['esim'];
+
+	for($i = 0; $i < $esim_count; $i++){
+		if(!isset($_FILES['esim-files']['tmp_name'][$i])){
+			returnProcessingState(false, "There was an issue with uploading the esim file: ". $_FILES['esim-files']['name'][$i]);
+		}
+		else {
+			$esim_file = pathinfo($_FILES['esim-files']['name'][$i]);
+			array_push($esim_files_arr, $esim_file);
+		}
+	}
+}
+**/
+
+/*
  *	3) Validate that there are no white space characters in the files' names
  */
 
@@ -145,8 +166,16 @@ if (preg_match('/\s/', $network_2_name))
 						  'The second selected file\' name contains whitespace characters. ' .
 						  'Please rename the file or select a different file and try again');
 }
-
-
+ 
+foreach($esim_files_arr as $esim_file){
+	$network_name = $esim_file['filename'];
+        if (preg_match('/\s/', $network_name))
+	{
+        	returnProcessingState(false,
+                                                  'The selected file\' name contains whitespace characters. ' .
+                                                  'Please rename the file or select a different file and try again. File: '. $i . ' ');
+	}
+}
 
 /*
  *	4) Validate that the extensions of the two uploaded files are of accepted network types
@@ -179,6 +208,8 @@ if ($network_1_ext != $network_2_ext)
 	returnProcessingState(false, 'The two network files were not of the same extension.');
 }
 
+//Validate esim file extensions if they were passed 
+
 
 /*
  *	5) Create a job ID hash
@@ -194,7 +225,7 @@ $job_id	= md5(time() . $network_1_name . $network_2_name);
 $job_data = array
 (
 	'id' 			=> $job_id,
-	'job_location' 		=> '../process/' . $job_id,
+	'job_location' 		=> '../process/runs/' . $job_id,
 	'extension' 	 	=> $network_1_ext,
 	'network_1_name'	=> $network_1_name,
 	'network_2_name'	=> $network_2_name

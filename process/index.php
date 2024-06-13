@@ -9,7 +9,7 @@
 		header('Location: /template/');
 		die();
 	} 
-	else if (!is_dir($_GET['id']))
+	else if (!is_dir('runs/'.$_GET['id']))
 	{
 		header('Location: /template/results?id=' . $_GET['id']);
 		die();

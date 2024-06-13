@@ -1,4 +1,7 @@
 <?php //include $_SERVER["DOCUMENT_ROOT"].'/php/includes.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 ignore_user_abort(true);
 
@@ -54,7 +57,7 @@ if (!isset($_POST['id']))
 {
 	returnProcessingState(false, 'No Job ID supplied.');
 } 
-else if(!is_dir($_POST['id']))
+else if(!is_dir('runs/'. $_POST['id']))
 {
 	returnProcessingStatus(true, 
 						   'Job does not exist.', 
@@ -101,7 +104,7 @@ fclose($output_info);
 // the SANA program located at $HOME/bin/
 
 
-// start with binary location
+//use appropriate executable version
 
 $bin_version = 'sana2.0';
 
@@ -112,6 +115,7 @@ if($version == "SANA 1.0"){
 }
 
 $option_string .= 'cd ' . $job_data->job_location . ' && /home/sana/bin/'.$bin_version. ' ';
+
 //networks
 if ($job_data->extension == 'el') 
 {
@@ -123,11 +127,13 @@ else
 	$option_string .= '-g1 ' . $job_data->network_1_name . ' ';
 	$option_string .= '-g2 ' . $job_data->network_2_name . ' ';
 }
+
 //esim files (all esim files will have 3-column format)
 //for($i=0; $i < $esim_count; $i++){
 //	$name = 'esim'.$i.'';
 //	$option_string .= '__ esim-files/' . $job_data->$name . '/' . $job_data->$name.'.el ';
 //}
+
 if( $version != "SANA 2.0"){
 	$option_string .= '-tinitial auto ';
 	$option_string .= '-tdecay auto';

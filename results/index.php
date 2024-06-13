@@ -5,9 +5,7 @@
 	
 	$job_id			= $_GET['id'];
 	$job_dir		=  $_JOBS . '/' . $job_id;
-	
 	$is_job			= is_dir($job_dir);
-	
 	$is_processed 	= file_exists($job_dir . '/info.json');
 	$has_error 		= file_exists($job_dir . '/error.log');
 	
@@ -20,11 +18,11 @@
 	
 	if ($status == 'preprocessed' || $status == 'processing')
 	{
-		header('Location: /template/process?id=' . $job_id);
+		header('Location: /template/process/runs?id=' . $job_id);
 		die();
 	}
 	
-	$zip_location = $_URL . '/process/' . $job_id . '/' . $job_data->zip_name;
+	$zip_location = $_URL . '/process/runs/' . $job_id . '/' . $job_data->zip_name;
 	
 	$exec_log_file_path = $job_dir . '/run.log';
 		
