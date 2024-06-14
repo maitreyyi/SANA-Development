@@ -1,5 +1,4 @@
 <?php
-	//echo "inside index for template";
 	if ($_SERVER['REQUEST_METHOD'] != 'GET')
 	{
 		die();
@@ -17,9 +16,8 @@
 	
 	
 	include $_SERVER["DOCUMENT_ROOT"] . "/template/inc/base.php";
-	$_THIS_DIR = realpath(dirname(__FILE__));
-	
-	
+
+	$_THIS_DIR = realpath(dirname(__FILE__));	
 	$status = json_decode(file_get_contents('runs/'. $_GET['id'] . '/info.json'))->status;
 	
 	if ($status == 'processed')

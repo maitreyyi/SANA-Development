@@ -1,4 +1,5 @@
 <?php
+//for debugging purposes
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
@@ -18,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] != 'POST')
  * This script will:
  * 
  * 1) Sanitize input received to the options form
- * 2) Validate that two files were uploaded
+ * 2) Validate that two files were uploaded and check if esim count matches the number of esim files inputted
  * 3) Validate that there are no white space characters in the files' names
  * 4) Validate that the extensions of the two uploaded files are of the same, accepted network type
  * 5) Create a job ID hash
@@ -44,10 +45,9 @@ function returnProcessingState($success, $status, $data=array())
  *	1) Sanitize input received to the options form
  */
 
-//assign json file based on version
-
+//Assign json file based on version - each version has different options available
 $version = $_POST['version'];
-$v_json = 'SANA2.json';
+$v_json = '';
 
 
 switch($version){
@@ -56,6 +56,9 @@ switch($version){
 		break;
 	case "SANA 1.1":
 		$v_json = "SANA1_1.json";
+		break;
+	case "SANA 2.0":
+		$v_json = "SANA2.json";
 		break;
 }
 
@@ -73,7 +76,7 @@ foreach($default_options_info_array as $option)
 		$_POST['options_inputs'][$option[0]] = $option[1] != 'checkbox' ? $option[2] : 0;
 	}
 }
-//error_log("User input error", E_ERROR);
+
 
 foreach($_POST['options_inputs'] as $option => $value)
 {
@@ -125,9 +128,11 @@ else
 
 /*
  * 2a) Validate that esimfile count matches number of files uploaded
- */
-
+ *
+ **/
+ 
 $esim_files_arr = array();
+
 /**
 if(isset($_POST['options_inputs']['esim']){
 	$esim_count = $_POST['options_inputs']['esim'];
@@ -266,6 +271,8 @@ if(!mkdir($job_data['job_location'] . '/networks', 0777, true))
 //					. '/networks/' . $job_data['esim_'.$i.''] . 'could not be created.');
 //	}
 //}
+
+
 // Create directory for first network
 
 if(!mkdir($job_data['job_location'] . '/networks/' . $job_data['network_1_name'], 0777, true))

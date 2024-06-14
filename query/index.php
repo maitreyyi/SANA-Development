@@ -1,28 +1,14 @@
 <?php
 	include $_SERVER["DOCUMENT_ROOT"]. "/template/inc/base.php";
 	$_THIS_DIR = realpath(dirname(__FILE__));
-
-	$esim_count = 0;     //default esim count
-	$version="SANA 2.0"; //default version of SANA is set
 	
 	$options_sections 	= array('standard', 'advanced');
 	$default_options_info = version_options($version);	
 
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		if(isset($_POST["version"])){
-			//echo "inside version";
-			$version = $_POST["version"];
-		}
-		if(isset($_POST["selectedOption"])){
-			$esim_count = $_POST["selectedOption"];
-		}
-		echo $version;
-	}
-
 	
 	/*
 		Declare and initialize variables
-		Based on the version that is selected, a different config.json is generated which then controls the options that are displayed.
+		Based on the version that is selected, a different json is used which then controls the options that are displayed.
 	*/
 	function version_options($version){
 		$file = "./versions/config.json";
@@ -75,14 +61,6 @@
 		else {
 			echo '<input name="' .$wrapname. '" type="' . $type . '"'. ' value="'.$value.'"';
 		}
-
-		/*
-		elseif($type == "dbl_vec" or $type == "str_vec"){
-			for($i = 0; $i < 3; $i++){
-				echo '<input name="' .$wrapname. '" type="' . $type . '"'. ' value="';
-			}
-		}
-		*/
 		
 		echo ' />';
 		echo '</div>';
@@ -123,14 +101,6 @@
 		else {
 			$htmlContent .= '<input name="' .$wrapname. '" type="' . $type . '"'. ' value="'.$value.'"';
 		}
-
-		/*
-		elseif($type == "dbl_vec" or $type == "str_vec"){
-			for($i = 0; $i < 3; $i++){
-				echo '<input name="' .$wrapname. '" type="' . $type . '"'. ' value="';
-			}
-		}
-		*/
 		
 		$htmlContent .= ' />'.
 		'</div>'.
@@ -162,10 +132,10 @@
 		$options_sections = version_options($version);
 
 		$htmlContent .= '<section>';									
-		//if ($options_section == 'standard')
+		
 		$htmlContent .= '<header><h3>Standard Network Alignment Options</h3></header>';
 		$htmlContent .= createHelpTextGroup($version, 'standard');
-		#advanced
+	
 		$htmlContent .= '<header><h3>Advanced Options</h3></header>'
 		. createHelpTextGroup($version, 'advanced');																					
 		$htmlContent .= '</section>';
@@ -213,6 +183,8 @@
 		return $htmlContent;
 	}									
 
+	//Text content that is used when toggling between versions (javascript handles updating the form based on user input)
+	
 	$standard_v1   = displayStandardMenu("SANA 1.0");
 	$standard_v1_1 = displayStandardMenu("SANA 1.1");
 	$standard_v2   = displayStandardMenu("SANA 2.0");
@@ -499,8 +471,6 @@ be aligned for a 3 minute run</li> -->
 		
 		<script type="text/javascript">
 			// Script to hide form and show warning message if JavaScript is disabled 
-			
-			//$('div.content.options input').change(onchange);
 			function ToggleFormDisplay()
 			{
 				$('#js-disabled').addClass('hidden');
@@ -511,23 +481,10 @@ be aligned for a 3 minute run</li> -->
 			}
 								
 			function selectVersion(value){
-				var xhr = new XMLHttpRequest();
-            			xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4 && xhr.status == 200) {
-						// Handle the response from the PHP script
-						//console.log();
-					}
-				};
-
-				xhr.open("POST", "index.php", true);
-				xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-				xhr.send("version=" + value);
-				
-				//change menu, options help and esim display
-				var optionsMenu = document.getElementById("standard-options");
-				var optionsHelp = document.getElementById("options-help-menu-sections");
-				var esimBlock   = document.getElementById("esim-selection-note");
-				var panel       = document.getElementById("select-version");
+				var optionsMenu = document.getElementById("standard-options");                   //displays option and input box
+				var optionsHelp = document.getElementById("options-help-menu-sections");         //menu that displays detailed info about each option
+				var esimBlock   = document.getElementById("esim-selection-note");                //adding esim block for SANA 1.2 and above
+				var panel       = document.getElementById("select-version");                     //updating the panel at the center of form
 				
 				var optionsMenuStandard = document.getElementById("options-stats-standard");
 				var optionsMenuAdvanced = document.getElementById("options-stats-advanced");
@@ -572,27 +529,14 @@ be aligned for a 3 minute run</li> -->
 				optionsMenuStandard.innerHTML = optionStandardStats;
 				optionsMenuAdvanced.innerHTML = optionAdvancedStats;
 
-				console.log("adding event listener to options input");
 			        $('div.content.options input').change(onchange);
 
 			}
 			
 			function selectEsimCount(value){
-				//var selectedOption = document.getElementById("esim_count").value
-				var xhr = new XMLHttpRequest();
-            			xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4 && xhr.status == 200) {
-						// Handle the response from the PHP script
-						//console.log(xhr.responseText);
-					}
-				};
-
-				xhr.open("POST", "index.php", true);
-
 				var fileInputs = document.getElementById("esim-file-input-wrapper");
 				display = "";
-				xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-				
+
 				for(var i =0; i < value; i++) {
 					display += "<div class = 'row'>"+
 						   "<div class = 'columns small-12 medium-6'>" +

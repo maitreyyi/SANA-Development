@@ -1,4 +1,6 @@
-<?php //include $_SERVER["DOCUMENT_ROOT"].'/php/includes.php';
+<?php
+
+//for debugging purposes
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -22,7 +24,7 @@ function returnProcessingState($success, $status, $data=array())
  * 	redirect for anything else
  * 
  * 1 create a query string using aggregated options
- * 4 run the query string through the SpArcFiRe binary using the shell
+ * 4 run the query string through the sana binary (based on user selected version) using the shell
  * 5 create a ZIP containing all files
  * 6 create a JSON file containing info on the query
  * The script will respond with a json object in all cases of failure 
@@ -87,7 +89,7 @@ else if ($info->status == "processing")
 }
 
 
-// step 2: import the job_data and options from the info.json file
+// step 2a: import the job_data and options from the info.json file
 
 $options 	= $info->options;
 $job_data 	= $info->data;
@@ -98,13 +100,9 @@ fwrite($output_info, json_encode(array("status" => "processing")));
 fclose($output_info);
 
 
-// step 2:
+// step 2b:
 //
-// generate a string that PHP will run. This version will use
-// the SANA program located at $HOME/bin/
-
-
-//use appropriate executable version
+// generate a string that PHP will run. This version will use the SANA program located at $HOME/bin/
 
 $bin_version = 'sana2.0';
 

@@ -119,6 +119,7 @@ $(document).ready(function(){
 	});
 
 	/**
+	 * Attempting to have browser track form state
 	$(".next-page, .prev-page").on("click", function() {
     		var current = $('.content').index($('.content.active'));
     		var next = current + ($(this).hasClass('next-page') ? 1 : -1);
@@ -142,10 +143,9 @@ $(document).ready(function(){
 		switch(current)
 		{
 			case "select-version":
-				//history.pushState({state: "select-version"}, "", window.location.href);
 				break;
 			case "select-networks":
-				//history.pushState({state: "select-networks"}, "", window.location.href);
+				
 				if(this.className === "next-page button radius")
 				{
 					if ($("#network-file-1-input")[0].files[0] === undefined)
@@ -162,7 +162,7 @@ $(document).ready(function(){
 				break;
 				
 			case "options":
-				//history.pushState({state: "options"}, "", window.location.href);
+				
 				var version = document.getElementById("version").value;
                                 console.log("inside options block, version: " + version);
 				
@@ -185,15 +185,17 @@ $(document).ready(function(){
 				break;
 
 			case "confirm":
-				//history.pushState({state: "confirm"}, "", window.location.href);
+				
 				if (this.className === "next-page button radius") 
 				{
 					$("li.step.visited").css("cursor", "default");
 					$("ul#steps").off("click", "li.step.visited");
 					setAsActive("process");
 					$(window).bind("beforeunload", function(){return "The networks have not been aligned yet.";});
+					
 					var queryData = new FormData($("form")[0]);
 					var version = document.getElementById("version").value;
+					
 					queryData.append('version', version);
 
 					$.ajax(
