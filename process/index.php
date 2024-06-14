@@ -20,7 +20,7 @@
 	$_THIS_DIR = realpath(dirname(__FILE__));
 	
 	
-	$status = json_decode(file_get_contents($_GET['id'] . '/info.json'))->status;
+	$status = json_decode(file_get_contents('runs/'. $_GET['id'] . '/info.json'))->status;
 	
 	if ($status == 'processed')
 	{
@@ -30,7 +30,7 @@
 	
 	if ($status == 'processing')
 	{
-		$exec_log_file_path = $_GET['id'] . '/run.log';
+		$exec_log_file_path = 'runs/' . $_GET['id'] . '/run.log';
 		
 		if (file_exists($exec_log_file_path))
 		{

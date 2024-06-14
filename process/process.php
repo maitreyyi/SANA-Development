@@ -72,7 +72,7 @@ else if(!is_dir('runs/'. $_POST['id']))
 // since the process/index.php page also checks that the file isn't 
 // being processed or is already processed, but just in case...
 
-$info = json_decode(file_get_contents($_POST['id'] . '/info.json'));
+$info = json_decode(file_get_contents('runs/'.$_POST['id'] . '/info.json'));
 echo $info->status;
 
 if ($info->status == "processed" || $info->status == "failed")
